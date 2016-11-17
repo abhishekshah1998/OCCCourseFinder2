@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -50,6 +52,7 @@ public class CourseSearchActivity extends AppCompatActivity {
         ArrayAdapter<String> instructorSpinnerAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, getAllInstructorNames());
         instructorSpinner.setAdapter(instructorSpinnerAdapter);
+        instructorSpinner.setOnItemSelectedListener(instructorSpinnerListener);
 
         offeringsListView = (ListView) findViewById(R.id.offeringsListView);
         offeringListAdapter =
@@ -118,4 +121,29 @@ public class CourseSearchActivity extends AppCompatActivity {
         }
     };
 
+    public AdapterView.OnItemSelectedListener instructorSpinnerListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            String selectedInstructorName = String.valueOf(adapterView.getItemAtPosition(i));
+
+            offeringListAdapter.clear();
+            Instructor instructor;
+
+            if (selectedInstructorName.equals("[Select Instructor]"))
+                for (Offering offering : allOfferingsList)
+                    offeringListAdapter.add(offering);
+            else
+                for (Offering offering : allOfferingsList)
+                {
+                    instructor = offering.getInstructor();
+                    if (instructor.getFullName().equals(selectedInstructorName))
+                        offeringListAdapter.add(offering);
+                }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+            adapterView.setSelection(0);
+        }
+    };
 }
