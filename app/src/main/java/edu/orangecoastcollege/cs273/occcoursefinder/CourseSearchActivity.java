@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -46,7 +47,9 @@ public class CourseSearchActivity extends AppCompatActivity {
         courseTitleEditText.addTextChangedListener(courseTitleTextWatcher);
 
         instructorSpinner = (Spinner) findViewById(R.id.instructorSpinner);
-
+        ArrayAdapter<String> instructorSpinnerAdapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, getAllInstructorNames());
+        instructorSpinner.setAdapter(instructorSpinnerAdapter);
 
         offeringsListView = (ListView) findViewById(R.id.offeringsListView);
         offeringListAdapter =
@@ -67,6 +70,17 @@ public class CourseSearchActivity extends AppCompatActivity {
         cursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         instructorSpinner.setAdapter(cursorAdapter);
         */
+    }
+
+    private String[] getAllInstructorNames()
+    {
+        String[] instructorNames = new String[allInstructorsList.size() + 1];
+        instructorNames[0] = "[Select Instructor]";
+        for (int i = 1; i < instructorNames.length; ++i)
+        {
+            instructorNames[i] = allInstructorsList.get(i-1).getFullName();
+        }
+        return instructorNames;
     }
 
     public TextWatcher courseTitleTextWatcher = new TextWatcher() {
