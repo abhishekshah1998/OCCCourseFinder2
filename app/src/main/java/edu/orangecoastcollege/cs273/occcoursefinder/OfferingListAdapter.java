@@ -62,6 +62,8 @@ public class OfferingListAdapter extends ArrayAdapter<Offering> {
                 (TextView) view.findViewById(R.id.offeringListFullNameTextView);
         TextView offeringListTitleTextView =
                 (TextView) view.findViewById(R.id.offeringListTitleTextView);
+        TextView offeringList_CRN_TextView =
+                (TextView) view.findViewById(R.id.offeringList_CRN_TextView);
 
         //TODO:  Make a reference to the offeringListCRNTextView and set the text accordingly.
 
@@ -69,6 +71,7 @@ public class OfferingListAdapter extends ArrayAdapter<Offering> {
 
         offeringListFullNameTextView.setText(selectedCourse.getFullName() + ": " + selectedCourse.getTitle());
         offeringListTitleTextView.setText(selectedInstructor.getFullName());
+        offeringList_CRN_TextView.setText(String.valueOf(selectedOffering.getCRN()));
 
         return view;
     }
